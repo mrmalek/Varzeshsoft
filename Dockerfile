@@ -1,0 +1,3 @@
+FROM node:22-slim
+WORKDIR /app
+EXPOSE 5173
