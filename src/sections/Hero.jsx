@@ -1,55 +1,55 @@
-import { motion } from 'framer-motion'
+import AppMockup from '../components/AppMockup.jsx'
 import Button from '../components/Button.jsx'
-import { ChevronDown } from 'lucide-react'
-
-const heroImg = 'https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=1920&auto=format&fit=crop&q=80'
+import { heroImage } from '../data/images.js'
+import { site } from '../data/site.js'
 
 export default function Hero() {
+  const scrollToFeatures = (event) => {
+    event.preventDefault()
+    const target = document.getElementById('features')
+    if (!target) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const top = target.getBoundingClientRect().top + window.scrollY - 80
+    window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' })
+  }
+
   return (
-    <section className="hero">
-      <div className="hero-bg">
-        <img src={heroImg} alt="Luxury modern villa at blue hour" />
-      </div>
-      <div className="hero-overlay" />
-      <div className="hero-content">
-        <motion.span
-          className="hero-label"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Premium Real Estate
-        </motion.span>
-        <motion.h1
-          className="hero-title"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Discover Exceptional<br />Homes & Investments
-        </motion.h1>
-        <motion.p
-          className="hero-subtitle"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Premium properties in prime locations. Find your dream home or the
-          perfect investment with confidence.
-        </motion.p>
-        <motion.div
-          className="hero-actions"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <Button to="/properties" variant="gold" size="lg">View Properties</Button>
-          <Button href="#about" variant="outline" size="lg">Learn More</Button>
-        </motion.div>
-      </div>
-      <div className="hero-scroll">
-        <span>Scroll</span>
-        <div className="hero-scroll-line"></div>
+    <section className="hero" aria-labelledby="hero-title">
+      <img className="hero__bg" src={heroImage} alt="" aria-hidden="true" />
+      <span className="hero__overlay" aria-hidden="true" />
+      <span className="hero__glow" aria-hidden="true" />
+
+      <div className="container hero__inner">
+        <div className="hero__content">
+          <span className="hero__eyebrow">نرم‌افزار مدیریت مجموعه‌های ورزشی</span>
+          <h1 className="hero__title" id="hero-title">
+            همه چیز تحت کنترل
+            <br />
+            مدیریت آسان‌تر
+            <br />
+            مجموعه ورزشی
+          </h1>
+          <p className="hero__description">
+            ورزش سافت، راهکاری جامع برای مدیریت حرفه‌ای مجموعه‌های ورزشی است. با اتوماسیون
+            فرایندها، مدیریت امور مالی و عملیاتی مجموعه خود را ساده‌تر و سریع‌تر کنید.
+          </p>
+          <div className="hero__actions">
+            <Button to={site.demoPath} variant="gold" size="lg">
+              درخواست دمو و مشاوره
+            </Button>
+            <Button href="#features" variant="outline-light" size="lg" onClick={scrollToFeatures}>
+              مشاهده امکانات
+            </Button>
+          </div>
+          <p className="hero__note">
+            نصب روی سرور مجموعه · دسترسی سیستم‌های متصل به شبکه از طریق IP · بدون وابستگی به سرویس
+            ابری
+          </p>
+        </div>
+
+        <div className="hero__visual">
+          <AppMockup device="dashboard" screen="overview" companion />
+        </div>
       </div>
     </section>
   )

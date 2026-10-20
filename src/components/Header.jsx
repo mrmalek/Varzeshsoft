@@ -1,101 +1,164 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Phone, Menu, X } from 'lucide-react'
-
-const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Properties', to: '/properties' },
-  { label: 'About Us', to: '/#about' },
-  { label: 'Services', to: '/#services' },
-  { label: 'Team', to: '/#team' },
-  { label: 'Contact', to: '/#contact' },
-]
-
-function Logo() {
-  return (
-    <Link to="/" className="logo" aria-label="Horizon Properties home">
-      <span className="logo-icon">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 24L12 8L16 16L20 10L28 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--champagne)' }} />
-          <path d="M4 24H28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" style={{ color: 'var(--champagne)' }} />
-          <circle cx="16" cy="6" r="2" fill="currentColor" style={{ color: 'var(--champagne)' }} />
-        </svg>
-      </span>
-      <span className="logo-text">HORIZON<span>PROPERTIES</span></span>
-    </Link>
-  )
-}
+import { useEffect, useRef, useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import Button from './Button.jsx'
+import Icon from './Icon.jsx'
+import Logo from './Logo.jsx'
+import { navItems, site } from '../data/site.js'
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [loginNotice, setLoginNotice] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
-  const isHome = location.pathname === '/'
+  const noticeRef = useRef(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', onScroll, { passive: true })
+    setMenuOpen(false)
+    setLoginNotice(false)
+  }, [location.pathname, location.hash])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10)
     onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
-    setMenuOpen(false)
-  }, [location.pathname])
+    if (!loginNotice) return undefined
+    const onKey = (event) => {
+      if (event.key === 'Escape') setLoginNotice(false)
+    }
+    const onClick = (event) => {
+      if (noticeRef.current && !noticeRef.current.contains(event.target)) setLoginNotice(false)
+    }
+    window.addEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onClick)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onClick)
+    }
+  }, [loginNotice])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    document.body.classList.toggle('is-nav-open', menuOpen)
+    return () => document.body.classList.remove('is-nav-open')
   }, [menuOpen])
 
-  // On non-home pages, header is always solid
-  const showScrolled = scrolled || !isHome
+  const isHashLink = (to) => to.startsWith('/#')
+
+  const navClasses = (to) =>
+    `site-nav__link${isHashLink(to) && location.pathname === '/' && location.hash === to.slice(1) ? ' is-active' : ''}`
+
+  const navContent = navItems.map((item) =>
+    isHashLink(item.to) ? (
+      <Link key={item.to} to={item.to} className={navClasses(item.to)}>
+        {item.label}
+      </Link>
+    ) : (
+      <NavLink
+        key={item.to}
+        to={item.to}
+        end={item.to === '/'}
+        className={({ isActive }) => `site-nav__link${isActive ? ' is-active' : ''}`}
+      >
+        {item.label}
+      </NavLink>
+    ),
+  )
+
+  const loginControl = site.loginUrl ? (
+    <Button href={site.loginUrl} variant="outline-light" size="sm" className="header__login">
+      ورود به سامانه
+    </Button>
+  ) : (
+    <span className="header__login-wrap" ref={noticeRef}>
+      <Button
+        variant="outline-light"
+        size="sm"
+        className="header__login"
+        aria-expanded={loginNotice}
+        onClick={() => setLoginNotice((value) => !value)}
+      >
+        ورود به سامانه
+      </Button>
+      {loginNotice ? (
+        <span className="login-notice" role="dialog" aria-label="ورود به سامانه">
+          <span className="login-notice__title">ورود به سامانه</span>
+          <span className="login-notice__text">
+            آدرس ورود به سامانه هنوز تنظیم نشده است. برای دریافت دسترسی یا اعلام آدرس ورود، با تیم
+            ورزش سافت در تماس باشید.
+          </span>
+          <span className="login-notice__actions">
+            <Button to="/contact" size="sm" variant="primary">
+              تماس با ما
+            </Button>
+            <button
+              type="button"
+              className="login-notice__close"
+              onClick={() => setLoginNotice(false)}
+              aria-label="بستن پیام"
+            >
+              <Icon name="X" size={16} />
+            </button>
+          </span>
+        </span>
+      ) : null}
+    </span>
+  )
 
   return (
-    <>
-      <header className={`header${showScrolled ? ' scrolled' : ''}`}>
-        <div className="container">
-          <div className="header-inner">
-            <Logo />
-            <nav className="nav" aria-label="Main navigation">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.to}
-                  className={`nav-link${link.to === location.pathname ? ' active' : ''}`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-            <a href="tel:5552467890" className="header-phone">
-              <Phone size={15} />
-              (555) 246-7890
-            </a>
-            <button
-              className={`menu-toggle${menuOpen ? ' open' : ''}`}
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
+    <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
+      <div className="container site-header__inner">
+        <Link to="/" className="site-header__brand" aria-label="ورزش سافت — صفحه اصلی">
+          <Logo />
+        </Link>
+
+        <nav className="site-nav" aria-label="منوی اصلی">
+          {navContent}
+        </nav>
+
+        <div className="site-header__actions">
+          <span className="site-header__desktop-actions">
+            {loginControl}
+            <Button to={site.demoPath} variant="gold" size="sm">
+              درخواست دمو
+            </Button>
+          </span>
+          <button
+            type="button"
+            className="site-header__toggle"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? 'بستن منو' : 'باز کردن منو'}
+            onClick={() => setMenuOpen((value) => !value)}
+          >
+            <Icon name={menuOpen ? 'X' : 'Menu'} size={22} />
+          </button>
+        </div>
+      </div>
+
+      <div className={`mobile-nav${menuOpen ? ' is-open' : ''}`} id="mobile-nav" hidden={!menuOpen}>
+        <div className="container mobile-nav__inner">
+          <nav className="mobile-nav__links" aria-label="منوی موبایل">
+            {navContent}
+          </nav>
+          <div className="mobile-nav__actions">
+            <Button to={site.demoPath} variant="gold" size="md" className="btn--block">
+              درخواست دمو
+            </Button>
+            {site.loginUrl ? (
+              <Button href={site.loginUrl} variant="outline-light" size="md" className="btn--block">
+                ورود به سامانه
+              </Button>
+            ) : (
+              <Button to="/contact" variant="outline-light" size="md" className="btn--block">
+                ورود به سامانه — دریافت دسترسی
+              </Button>
+            )}
           </div>
         </div>
-      </header>
-      <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-        {navLinks.map((link) => (
-          <Link key={link.label} to={link.to} className="nav-link">
-            {link.label}
-          </Link>
-        ))}
-        <a href="tel:5552467890" className="header-phone">
-          <Phone size={16} />
-          (555) 246-7890
-        </a>
       </div>
-    </>
+    </header>
   )
 }

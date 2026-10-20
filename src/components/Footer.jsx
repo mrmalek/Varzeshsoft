@@ -1,100 +1,87 @@
 import { Link } from 'react-router-dom'
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Twitter, ArrowRight } from 'lucide-react'
-
-const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Properties', to: '/properties' },
-  { label: 'About Us', to: '/#about' },
-  { label: 'Services', to: '/#services' },
-  { label: 'Team', to: '/#team' },
-  { label: 'Contact', to: '/#contact' },
-]
-
-function Logo() {
-  return (
-    <div className="logo">
-      <span className="logo-icon">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 24L12 8L16 16L20 10L28 24" stroke="var(--champagne)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M4 24H28" stroke="var(--champagne)" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="16" cy="6" r="2" fill="var(--champagne)" />
-        </svg>
-      </span>
-      <span className="logo-text">HORIZON<span>PROPERTIES</span></span>
-    </div>
-  )
-}
+import Button from './Button.jsx'
+import Icon from './Icon.jsx'
+import Logo from './Logo.jsx'
+import Placeholder from './Placeholder.jsx'
+import { footerColumns, site } from '../data/site.js'
 
 export default function Footer() {
-  return (
-    <footer className="footer" id="contact">
-      <div className="container">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <Logo />
-            <p className="footer-desc">
-              Connecting people with extraordinary homes and smart investments.
-              Integrity, transparency, and client satisfaction at the heart of
-              everything we do.
-            </p>
-            <div className="footer-social">
-              <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
-              <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
-              <a href="#" aria-label="LinkedIn"><Linkedin size={18} /></a>
-              <a href="#" aria-label="Twitter"><Twitter size={18} /></a>
-            </div>
-          </div>
+  const year = new Date().getFullYear()
 
-          <div className="footer-col">
-            <h4>Quick Links</h4>
-            <ul className="footer-links">
-              {navLinks.map((link) => (
-                <li key={link.label}>
+  const contactRows = [
+    { icon: 'Phone', label: 'تلفن', value: site.contact.phone, placeholder: 'شماره تماس شرکت' },
+    { icon: 'Mail', label: 'ایمیل', value: site.contact.email, placeholder: 'ایمیل شرکت' },
+    { icon: 'MapPin', label: 'نشانی', value: site.contact.address, placeholder: 'نشانی دفتر' },
+  ]
+
+  return (
+    <footer className="site-footer">
+      <div className="container site-footer__grid">
+        <div className="site-footer__brand">
+          <Logo tone="light" />
+          <p className="site-footer__summary">{site.summary}</p>
+          <p className="site-footer__owner">تولید {site.brand.legalFa}</p>
+          {site.socials.length > 0 ? (
+            <ul className="socials">
+              {site.socials.map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} aria-label={item.label} target="_blank" rel="noreferrer noopener">
+                    <Icon name={item.icon || 'Globe'} size={18} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="site-footer__note">
+              شبکه‌های اجتماعی شرکت در فایل <code>src/data/site.js</code> قابل افزودن است.
+            </p>
+          )}
+        </div>
+
+        {footerColumns.map((column) => (
+          <div className="site-footer__column" key={column.title}>
+            <h3 className="site-footer__title">{column.title}</h3>
+            <ul className="site-footer__links">
+              {column.links.map((link) => (
+                <li key={`${column.title}-${link.label}-${link.to}`}>
                   <Link to={link.to}>{link.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
+        ))}
 
-          <div className="footer-col">
-            <h4>Services</h4>
-            <ul className="footer-links">
-              <li><Link to="/#services">Luxury Home Sales</Link></li>
-              <li><Link to="/#services">Property Investment</Link></li>
-              <li><Link to="/#services">Property Marketing</Link></li>
-              <li><Link to="/#services">Real Estate Advisory</Link></li>
-              <li><Link to="/#services">Property Valuation</Link></li>
-              <li><Link to="/#services">Relocation Services</Link></li>
-            </ul>
-          </div>
+        <div className="site-footer__column site-footer__contact">
+          <h3 className="site-footer__title">تماس با ما</h3>
+          <ul className="site-footer__contact-list">
+            {contactRows.map((row) => (
+              <li key={row.label}>
+                <Icon name={row.icon} size={17} />
+                <span>
+                  <span className="site-footer__contact-label">{row.label}:</span>{' '}
+                  {row.value ? row.value : <Placeholder>{row.placeholder}</Placeholder>}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="site-footer__note">
+            اطلاعات تماس تأییدشده پس از دریافت، در فایل <code>src/data/site.js</code> جایگزین می‌شود.
+          </p>
+          <Button to={site.demoPath} variant="gold" size="sm">
+            درخواست دمو و مشاوره
+          </Button>
+        </div>
+      </div>
 
-          <div className="footer-col">
-            <h4>Contact</h4>
-            <div className="footer-contact-item">
-              <Phone size={16} />
-              <span>(555) 246-7890</span>
-            </div>
-            <div className="footer-contact-item">
-              <Mail size={16} />
-              <span>hello@horizonproperties.com</span>
-            </div>
-            <div className="footer-contact-item">
-              <MapPin size={16} />
-              <span>1200 Architectural Blvd, Suite 500<br />Beverly Hills, CA 90210</span>
-            </div>
-            <div className="footer-newsletter">
-              <input type="email" placeholder="Your email address" aria-label="Email for newsletter" />
-              <button aria-label="Subscribe"><ArrowRight size={18} /></button>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Horizon Properties. All rights reserved.</span>
-          <div className="footer-bottom-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
-          </div>
-        </div>
+      <div className="container site-footer__bottom">
+        <p className="site-footer__copy">
+          © {year} {site.brand.fa} — {site.brand.legalFa}. تمام حقوق محفوظ است.
+        </p>
+        <nav className="site-footer__legal" aria-label="پیوندهای حقوقی">
+          <Link to="/terms">قوانین و مقررات</Link>
+          <span aria-hidden="true">|</span>
+          <Link to="/privacy">حریم خصوصی</Link>
+        </nav>
       </div>
     </footer>
   )

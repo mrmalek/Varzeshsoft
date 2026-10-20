@@ -1,0 +1,529 @@
+/* ==========================================================================
+   بخش‌های صفحهٔ اصلی و صفحه‌های داخلی
+   ========================================================================== */
+
+/* ---------- هیرو ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: 60px 70px;
+  background: var(--navy-900);
+  color: var(--on-dark);
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.42;
+  filter: saturate(0.75);
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(6, 26, 48, 0.97) 0%,
+    rgba(6, 26, 48, 0.9) 42%,
+    rgba(8, 37, 66, 0.72) 100%
+  );
+}
+
+.hero__glow {
+  position: absolute;
+  inset-block-start: -130px;
+  inset-inline-end: -70px;
+  width: 540px;
+  height: 540px;
+  background: radial-gradient(circle, rgba(38, 165, 255, 0.3), transparent 68%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 34px;
+  align-items: center;
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 5px 12px;
+  border: 1px solid rgba(38, 165, 255, 0.32);
+  border-radius: var(--radius-pill);
+  background: rgba(8, 121, 249, 0.12);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--blue-500);
+}
+
+.hero__title {
+  font-size: clamp(1.8rem, 3.5vw, 2.95rem);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.hero__description {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--on-dark-soft);
+  font-size: 1.03rem;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.hero__note {
+  margin: 22px 0 0;
+  font-size: 0.81rem;
+  line-height: 1.9;
+  color: rgba(224, 238, 252, 0.55);
+}
+
+.hero__visual {
+  position: relative;
+}
+
+/* ---------- بخش امکانات نرم‌افزار ---------- */
+.features-section {
+  overflow: hidden;
+}
+
+/* ---------- بخش خدمات تکمیلی ---------- */
+.services-section {
+  background: var(--white);
+}
+
+/* ---------- بخش مشتریان ---------- */
+.clients-section {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- راهکارها ---------- */
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.solution-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.solution-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(8, 121, 249, 0.35);
+  box-shadow: var(--shadow-md);
+}
+
+.solution-card__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--blue-050);
+  color: var(--blue-600);
+}
+
+.solution-card__title {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.solution-card__text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+
+/* ---------- درباره ما ---------- */
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.approach-card {
+  padding: 24px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+
+.approach-card svg {
+  color: var(--blue-600);
+}
+
+.approach-card h3 {
+  margin: 14px 0 8px;
+  font-size: 1rem;
+}
+
+.approach-card p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+
+/* ---------- تماس و درخواست دمو ---------- */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.contact-list__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  color: var(--blue-600);
+}
+
+.contact-list__label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.contact-list__value {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.contact-note {
+  margin-top: 18px;
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+
+.expect-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.expect-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.expect-item__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  color: var(--blue-600);
+}
+
+.expect-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.expect-item__title {
+  font-weight: 700;
+}
+
+.expect-item__text {
+  font-size: 0.88rem;
+  line-height: 1.95;
+  color: var(--ink-soft);
+}
+
+/* ---------- پشتیبانی ---------- */
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.support-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+
+.support-card__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+  color: var(--blue-600);
+}
+
+.support-card__title {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.support-card__text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+
+/* ---------- صفحه‌های حقوقی ---------- */
+.legal-layout {
+  max-width: 900px;
+}
+
+.legal-notice {
+  margin: 0 0 34px;
+  padding: 14px 18px;
+  border: 1px solid #f2d79a;
+  border-radius: var(--radius-md);
+  background: #fff6e5;
+  color: #8a5300;
+  font-size: 0.88rem;
+  line-height: 1.95;
+}
+
+.legal-block {
+  margin-top: 28px;
+}
+
+.legal-block__title {
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.legal-updated {
+  margin-top: 34px;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- صفحهٔ ۴۰۴ ---------- */
+.not-found {
+  position: relative;
+  overflow: hidden;
+  padding-block: 90px 100px;
+  background: linear-gradient(165deg, var(--navy-900) 0%, var(--navy-800) 60%, #0a2f55 100%);
+  color: var(--on-dark);
+}
+
+.not-found__glow {
+  position: absolute;
+  inset-block-start: -140px;
+  inset-inline-end: -60px;
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(38, 165, 255, 0.26), transparent 70%);
+  pointer-events: none;
+}
+
+.not-found__inner {
+  position: relative;
+  max-width: 760px;
+}
+
+.not-found__code {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(38, 165, 255, 0.35);
+}
+
+.not-found__title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.not-found__text {
+  color: var(--on-dark-soft);
+  max-width: 60ch;
+}
+
+.not-found__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 34px;
+}
+
+.not-found__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-pill);
+  font-size: 0.87rem;
+  color: var(--on-dark);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.not-found__links a:hover {
+  border-color: var(--blue-500);
+  background: rgba(38, 165, 255, 0.14);
+}
+
+.not-found__shortcuts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+  margin-bottom: 34px;
+}
+
+.not-found__subtitle {
+  font-size: 0.95rem;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.not-found__chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.not-found__chip-list a {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.82rem;
+  color: var(--on-dark-soft);
+}
+
+.not-found__chip-list a:hover {
+  color: var(--white);
+  border-color: rgba(38, 165, 255, 0.5);
+}
+
+/* ---------- واکنش‌گرایی ---------- */
+@media (max-width: 1180px) {
+  .mockup__companion {
+    display: none;
+  }
+
+  .solution-grid,
+  .approach-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .support-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    padding-block: 46px 56px;
+  }
+
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .hero__visual {
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  .contact-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .not-found__shortcuts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding-block: 36px 48px;
+  }
+
+  .hero__title {
+    font-size: clamp(1.6rem, 7vw, 2.1rem);
+  }
+
+  .hero__description {
+    font-size: 0.97rem;
+  }
+
+  .hero__actions .btn {
+    flex: 1;
+    min-width: 160px;
+  }
+
+  .not-found {
+    padding-block: 64px 72px;
+  }
+
+  .not-found__code {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .solution-grid,
+  .approach-grid,
+  .support-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,21 +1,26 @@
+import CtaBanner from '../components/CtaBanner.jsx'
+import usePageMeta from '../components/usePageMeta.js'
+import Benefits from '../sections/Benefits.jsx'
+import Clients from '../sections/Clients.jsx'
+import ComplementaryServices from '../sections/ComplementaryServices.jsx'
 import Hero from '../sections/Hero.jsx'
-import About from '../sections/About.jsx'
-import FeaturedProperties from '../sections/FeaturedProperties.jsx'
-import Services from '../sections/Services.jsx'
-import WhyChooseUs from '../sections/WhyChooseUs.jsx'
-import Team from '../sections/Team.jsx'
-import CTA from '../sections/CTA.jsx'
+import SoftwareFeatures from '../sections/SoftwareFeatures.jsx'
 
 export default function Home() {
+  usePageMeta({
+    title: null,
+    description:
+      'ورزش سافت، نرم‌افزار یکپارچه مدیریت مجموعه‌های ورزشی؛ ده ماژول نرم‌افزاری، شش خدمت تکمیلی و نصب روی سرور داخلی مجموعه.',
+  })
+
   return (
     <>
       <Hero />
-      <About />
-      <FeaturedProperties />
-      <Services />
-      <WhyChooseUs />
-      <Team />
-      <CTA />
+      <Benefits />
+      <SoftwareFeatures />
+      <ComplementaryServices />
+      <Clients />
+      <CtaBanner />
     </>
   )
 }
